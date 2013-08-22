@@ -421,7 +421,12 @@ class Article < Content
     self.body += other_article.body
     self.extended += other_article.extended
     self.comments << other_article.comments
+    self.comments(true)
     self.save
+    self.comments(true)
+    other_article.comments(true)
+    other_article.comments.clear
+    other_article.comments(true)
     other_article.destroy
   end
 
