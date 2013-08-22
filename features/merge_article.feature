@@ -27,3 +27,4 @@ Feature: Merge Articles
     And I am on the admin content page
     When I follow "merge test 2"
     Then I should not see "Merge"
+
