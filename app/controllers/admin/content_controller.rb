@@ -15,7 +15,6 @@ class Admin::ContentController < Admin::BaseController
       flash[:error] = _("Error, a document cannot be merged with itself.")
       redirect_to :action => :edit, :id => params[:old_id]
     end
-    debugger
   end
 
   def auto_complete_for_article_keywords
@@ -40,7 +39,6 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def edit
-    debugger
     @article = Article.find(params[:id])
     unless @article.access_by? current_user
       redirect_to :action => 'index'
