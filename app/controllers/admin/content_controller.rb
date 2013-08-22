@@ -9,12 +9,19 @@ class Admin::ContentController < Admin::BaseController
   def merge_articles
     if params[:merge_with] == ""
       flash[:error] = _("Error, Document ID to merge is required.")
-      redirect_to :action => :edit, :id => params[:old_id]
+      redirect_to :action => :edit, :id => params[:old_id] and return
     end
     if params[:merge_with] == params[:old_id]
       flash[:error] = _("Error, a document cannot be merged with itself.")
-      redirect_to :action => :edit, :id => params[:old_id]
+      redirect_to :action => :edit, :id => params[:old_id] and return
     end
+    if !Article.find_by_id(params[:merge_with])
+      flash[:error] = _("Error, document to merge could not be found.")
+      redirect_to :action => :edit, :id => params[:old_id] and return
+    end
+    Article.find(params[:old_id]).merge_with(params[:merge_with])
+    flash[:notice] = _("Documents merged.")
+    redirect_to :action => :edit, :id => params[:old_id] and return
   end
 
   def auto_complete_for_article_keywords
