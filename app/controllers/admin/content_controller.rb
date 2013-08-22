@@ -7,11 +7,15 @@ class Admin::ContentController < Admin::BaseController
   cache_sweeper :blog_sweeper
 
   def merge_articles
-    debugger
     if params[:merge_with] == ""
       flash[:error] = _("Error, Document ID to merge is required.")
-      new_or_edit
+      redirect_to :action => :edit, :id => params[:old_id]
     end
+    if params[:merge_with] == params[:old_id]
+      flash[:error] = _("Error, a document cannot be merged with itself.")
+      redirect_to :action => :edit, :id => params[:old_id]
+    end
+    debugger
   end
 
   def auto_complete_for_article_keywords
@@ -36,6 +40,7 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def edit
+    debugger
     @article = Article.find(params[:id])
     unless @article.access_by? current_user
       redirect_to :action => 'index'

@@ -1,16 +1,16 @@
 <% @page_heading = _('New article') %>
 
 <%= render "admin/shared/edit", { :form_type => "article", :form_action => { :action => "new", :id => @article.id , :class => ('autosave')} } %>
-<% if params[:action] == "edit" %>
+<% if (params[:action] == "edit" and current_user.profile_id == 1) %>
   <div>
   <%= form_tag :action => 'merge_articles' do %>
     <h4>Merge Articles</h4>
-    <% debugger %>
     <!--
     <%= label_tag :merge_with, 'Article ID'%>
     -->
     Article ID
     <%= text_field_tag :merge_with%>
+    <%= hidden_field_tag :old_id, params[:id]%>
     <br />
     <%= submit_tag 'Merge'%>
   <% end %>

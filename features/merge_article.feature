@@ -19,7 +19,8 @@ Feature: Merge Articles
     When I follow "merge test 1"
     Then I should see "Merge Articles"
     When I press "Merge"
-    Then show me the page
+    Then I should see "Error"
+#   Then show me the page
 
   Scenario:A non-admin cannot merge two articles
     Given I am logged in as a non-admin user
