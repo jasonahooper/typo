@@ -6,6 +6,14 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
 
+  def merge_articles
+    debugger
+    if params[:merge_with] == ""
+      flash[:error] = _("Error, Document ID to merge is required.")
+      new_or_edit
+    end
+  end
+
   def auto_complete_for_article_keywords
     @items = Tag.find_with_char params[:article][:keywords].strip
     render :inline => "<%= raw auto_complete_result @items, 'name' %>"
